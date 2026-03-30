@@ -9,10 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <style>
-      /* Ini untuk memaksa seluruh teks website menggunakan Noto Serif */
-      body {
-          font-family: 'Noto Serif', serif !important;
-      }
+    body { font-family: 'Noto Serif', serif !important; }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -54,20 +51,15 @@
 </footer>
 
 <script>
-  // Otak JavaScript (Tablet Pintar)
   const ITEMS_PER_PAGE = 10;
   let currentPage = 1;
   let dbPublik = [];
 
   async function muatDatabase() {
     try {
-      // Mengambil Buku Induk
       const response = await fetch('database_berita.json?v=' + new Date().getTime());
       const semuaBerita = await response.json();
-      
-      // Menyembunyikan berita 2 wajah (predator)
       dbPublik = semuaBerita.filter(art => art.type !== 'predator');
-      
       renderHalaman(currentPage);
     } catch (error) {
       document.getElementById('app-container').innerHTML = '<p class="text-center text-red-600 py-10">Gagal memuat berita.</p>';
@@ -83,7 +75,6 @@
 
     let htmlKonten = '';
 
-    // Hero Artikel (Hanya di Halaman 1)
     if (halaman === 1 && artikelHalamanIni.length > 0) {
       const hero = artikelHalamanIni[0];
       htmlKonten += `
@@ -95,7 +86,6 @@
         </a>`;
     }
 
-    // Grid Artikel
     let indexMulaiGrid = (halaman === 1) ? 1 : 0;
     for (let i = indexMulaiGrid; i < artikelHalamanIni.length; i += 3) {
       const chunk = artikelHalamanIni.slice(i, i + 3);
@@ -118,9 +108,7 @@
       htmlKonten += `</div>`;
     }
 
-    // Navigasi Pagination
     htmlKonten += `<nav class="flex justify-center items-center space-x-4 mt-8 flex-wrap gap-y-2">`;
-    
     if (halaman > 1) {
       htmlKonten += `<button onclick="renderHalaman(${halaman - 1})" class="px-4 py-2 bg-gray-200 hover:bg-black hover:text-white transition rounded font-bold shadow">« Prev</button>`;
     }
@@ -144,12 +132,10 @@
     }
     htmlKonten += `</nav>`;
 
-    // Tampilkan ke layar
     document.getElementById('app-container').innerHTML = htmlKonten;
-    window.scrollTo(0, 0); // Kembali ke atas saat pindah halaman
+    window.scrollTo(0, 0);
   }
 
-  // Jalankan saat halaman dibuka
   muatDatabase();
 </script>
 </body>
